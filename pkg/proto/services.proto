@@ -1,0 +1,9 @@
+syntax = "proto3";
+import "pkg/proto/types.proto";
+package proto;
+option go_package = "github.com/eduardonunesp/kvzica/pkg/proto";
+
+service KeyValueService {
+    rpc SetKeyValue(KeyValue) returns (KeyValueResponse);
+    rpc GetValue(Key) returns (KeyValueResponse);
+}
