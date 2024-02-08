@@ -4,6 +4,14 @@ Some simple key value store in go backed by dgraph-io/badger.
 
 ## Usage
 
+First you need to start the server:
+
+```bash
+kvzika -p 5566
+```
+
+Then you can use the client to set and get key value pairs:
+
 ```go
 package main
 
