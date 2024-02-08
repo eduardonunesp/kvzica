@@ -2,12 +2,12 @@ syntax = "proto3";
 package proto;
 option go_package = "github.com/eduardonunesp/kvzica/pkg/proto";
 
-message KeyValue {
+message KeyValueRequest {
     bytes key = 1;
     bytes value = 2;
 }
 
-message Key {
+message KeyRequest {
     bytes key = 1;
 }
 
@@ -19,4 +19,5 @@ enum Status {
 message KeyValueResponse {
     Status status = 1;
     string message = 2;
+    bytes value = 3;
 }

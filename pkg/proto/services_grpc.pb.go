@@ -22,8 +22,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type KeyValueServiceClient interface {
-	SetKeyValue(ctx context.Context, in *KeyValue, opts ...grpc.CallOption) (*KeyValueResponse, error)
-	GetValue(ctx context.Context, in *Key, opts ...grpc.CallOption) (*KeyValueResponse, error)
+	SetKeyValue(ctx context.Context, in *KeyValueRequest, opts ...grpc.CallOption) (*KeyValueResponse, error)
+	GetValue(ctx context.Context, in *KeyRequest, opts ...grpc.CallOption) (*KeyValueResponse, error)
 }
 
 type keyValueServiceClient struct {
@@ -34,7 +34,7 @@ func NewKeyValueServiceClient(cc grpc.ClientConnInterface) KeyValueServiceClient
 	return &keyValueServiceClient{cc}
 }
 
-func (c *keyValueServiceClient) SetKeyValue(ctx context.Context, in *KeyValue, opts ...grpc.CallOption) (*KeyValueResponse, error) {
+func (c *keyValueServiceClient) SetKeyValue(ctx context.Context, in *KeyValueRequest, opts ...grpc.CallOption) (*KeyValueResponse, error) {
 	out := new(KeyValueResponse)
 	err := c.cc.Invoke(ctx, "/proto.KeyValueService/SetKeyValue", in, out, opts...)
 	if err != nil {
@@ -43,7 +43,7 @@ func (c *keyValueServiceClient) SetKeyValue(ctx context.Context, in *KeyValue, o
 	return out, nil
 }
 
-func (c *keyValueServiceClient) GetValue(ctx context.Context, in *Key, opts ...grpc.CallOption) (*KeyValueResponse, error) {
+func (c *keyValueServiceClient) GetValue(ctx context.Context, in *KeyRequest, opts ...grpc.CallOption) (*KeyValueResponse, error) {
 	out := new(KeyValueResponse)
 	err := c.cc.Invoke(ctx, "/proto.KeyValueService/GetValue", in, out, opts...)
 	if err != nil {
@@ -56,8 +56,8 @@ func (c *keyValueServiceClient) GetValue(ctx context.Context, in *Key, opts ...g
 // All implementations must embed UnimplementedKeyValueServiceServer
 // for forward compatibility
 type KeyValueServiceServer interface {
-	SetKeyValue(context.Context, *KeyValue) (*KeyValueResponse, error)
-	GetValue(context.Context, *Key) (*KeyValueResponse, error)
+	SetKeyValue(context.Context, *KeyValueRequest) (*KeyValueResponse, error)
+	GetValue(context.Context, *KeyRequest) (*KeyValueResponse, error)
 	mustEmbedUnimplementedKeyValueServiceServer()
 }
 
@@ -65,10 +65,10 @@ type KeyValueServiceServer interface {
 type UnimplementedKeyValueServiceServer struct {
 }
 
-func (UnimplementedKeyValueServiceServer) SetKeyValue(context.Context, *KeyValue) (*KeyValueResponse, error) {
+func (UnimplementedKeyValueServiceServer) SetKeyValue(context.Context, *KeyValueRequest) (*KeyValueResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetKeyValue not implemented")
 }
-func (UnimplementedKeyValueServiceServer) GetValue(context.Context, *Key) (*KeyValueResponse, error) {
+func (UnimplementedKeyValueServiceServer) GetValue(context.Context, *KeyRequest) (*KeyValueResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetValue not implemented")
 }
 func (UnimplementedKeyValueServiceServer) mustEmbedUnimplementedKeyValueServiceServer() {}
@@ -85,7 +85,7 @@ func RegisterKeyValueServiceServer(s grpc.ServiceRegistrar, srv KeyValueServiceS
 }
 
 func _KeyValueService_SetKeyValue_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(KeyValue)
+	in := new(KeyValueRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -97,13 +97,13 @@ func _KeyValueService_SetKeyValue_Handler(srv interface{}, ctx context.Context, 
 		FullMethod: "/proto.KeyValueService/SetKeyValue",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(KeyValueServiceServer).SetKeyValue(ctx, req.(*KeyValue))
+		return srv.(KeyValueServiceServer).SetKeyValue(ctx, req.(*KeyValueRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _KeyValueService_GetValue_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Key)
+	in := new(KeyRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -115,7 +115,7 @@ func _KeyValueService_GetValue_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: "/proto.KeyValueService/GetValue",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(KeyValueServiceServer).GetValue(ctx, req.(*Key))
+		return srv.(KeyValueServiceServer).GetValue(ctx, req.(*KeyRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

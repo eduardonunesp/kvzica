@@ -7,3 +7,9 @@ proto:
 
 build:
 	go build -o bin/kvzica cmd/kvzica/main.go
+
+run:
+	go run cmd/kvzica/main.go
+
+client:
+	go run cmd/kvclient/main.go

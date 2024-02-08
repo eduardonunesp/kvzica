@@ -4,6 +4,6 @@ package proto;
 option go_package = "github.com/eduardonunesp/kvzica/pkg/proto";
 
 service KeyValueService {
-    rpc SetKeyValue(KeyValue) returns (KeyValueResponse);
-    rpc GetValue(Key) returns (KeyValueResponse);
+    rpc SetKeyValue(KeyValueRequest) returns (KeyValueResponse);
+    rpc GetValue(KeyRequest) returns (KeyValueResponse);
 }
